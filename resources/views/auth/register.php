@@ -4,14 +4,14 @@
     <div class="text">
         Register
     </div>
-    <form action="#">
+    <form id="register-form"> 
         <div class="field">
-            <input type="text" required>
+            <input type="text" name="username" required>
             <span class="fas fa-user"></span>
-            <label>Email or Phone</label>
+            <label>Username</label>
         </div>
         <div class="field">
-            <input type="password" required>
+            <input type="password" name="password" required>
             <span class="fas fa-lock"></span>
             <label>Password</label>
         </div> 
@@ -23,4 +23,4 @@
     </form>
 </div>
 
-<?php view('partials/header') ?>
+<?php view('partials/footer') ?>

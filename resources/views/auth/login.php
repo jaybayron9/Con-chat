@@ -4,14 +4,14 @@
     <div class="text">
         Login
     </div>
-    <form action="/room" method="get">
+    <form action="/register" method="POST">
         <div class="field">
-            <input type="text" required>
+            <input type="text" name="username" required>
             <span class="fas fa-user"></span>
-            <label>Email or Phone</label>
+            <label>Username</label>
         </div>
         <div class="field">
-            <input type="password" required>
+            <input type="password" name="password" required>
             <span class="fas fa-lock"></span>
             <label>Password</label>
         </div> 

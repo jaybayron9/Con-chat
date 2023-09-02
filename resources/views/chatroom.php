@@ -24,9 +24,9 @@
                         <p>Online</p>
                     </div>
                 </div> 
-            </li>  
+            </li>   
         </ul> 
-        <button id="logout-btn">
+        <button id="logout-btn" onclick="window.location.href = '/'">
             Logout
         </button> 
     </aside> 
