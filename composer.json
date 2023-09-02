@@ -1,0 +1,14 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.5",
+        "cboden/ratchet": "^0.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChatApp\\": "socket/bin"
+        }
+    }, 
+    "scripts": {
+        "server": "php -S localhost:5000"
+    } 
+}
