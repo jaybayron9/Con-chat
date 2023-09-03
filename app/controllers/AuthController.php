@@ -2,50 +2,39 @@
 
 namespace AuthController;  
 use Model\Users; 
-use utils\Validate;
 
 class AuthController {   
-    private $user; 
+    private $user;
 
-    public function __construct() { 
+    public function __construct() {
         $this->user = new Users(); 
     }
 
-    public function register() {     
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    public function register() {   
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']); 
+
+        $error = [];
+        match (true) {
+            empty($username) => $error[] = 'Username field is required.',
+            empty($password) => $error[] = 'Password field is required.'
+        };
+
+        if (is_null($error)) {
+            echo 'null';
+        }else {
+            echo 'not null';
+        }
+
         try { 
-            $userExist = $this->user->get("SELECT name FROM users WHERE name = :username", [
-                ':username' => $username,
-            ]);
-
-            $error[] = Validate::check_empty($_POST) ? 'All field are required.' : null;
-            $error[] = count($userExist) > 0 ? 'This username is already taken.' : null;
-            $error[] = Validate::has_min_lenght($password, 7) ? 'The password must be at least 8 characters.' : null;
-
-            if (!empty(array_filter($error))) {
-                json([
-                    'empty' => $error[0],
-                    'taken' => $error[1],
-                    'min_password' => $error[2]
-                ]); 
-                return;
-            }
-
-            json([
-                'status' => 'ok'
+            $query = $this->user->query("INSERT INTO users (name, password) VALUES (:name, :values)", [
+                ':name' => $username,
+                ':values' => $password, 
             ]); 
 
-            // $query = $this->user->query("INSERT INTO users (name, password) VALUES (:name, :values)", [
-            //     ':name' => $this->username,
-            //     ':values' => $this->password, 
-            // ]); 
-
-            // if ($query) {
-            //     echo 'ok';
-            // } else {
-            //     echo 'not okay';
-            // }
+            if ($query) {
+                http_response_code(200); 
+            } 
         } catch (\Exception $e) {
             echo $e->getMessage();
         }

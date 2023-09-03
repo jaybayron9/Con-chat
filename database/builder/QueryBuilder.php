@@ -67,23 +67,11 @@ class QueryBuilder extends ConnectDB {
         return $this;
     }
 
-    public function put($sql, $params = []) {
-        try {
-            $statement = ConnectDB::$conn->prepare($sql);
-            $query = $statement->execute($params);
-            if ($query)
-                return true; 
-            return false;
-        } catch (PDOException $e) {
-            echo "Query Execution Error: " . $e->getMessage();
-            return [];
-        }
-    }
-
-    public function get($sql, $params = []) {
+    public function query($sql, $params = []) {
         try {
             $statement = ConnectDB::$conn->prepare($sql);
             $statement->execute($params);
+
             return $statement->fetchAll();
         } catch (PDOException $e) {
             echo "Query Execution Error: " . $e->getMessage();

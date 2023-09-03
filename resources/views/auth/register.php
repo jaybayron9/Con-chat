@@ -6,12 +6,12 @@
     </div>
     <form id="register-form"> 
         <div class="field">
-            <input type="text" name="username"  />
+            <input type="text" name="username" required>
             <span class="fas fa-user"></span>
             <label>Username</label>
         </div>
         <div class="field">
-            <input type="password" name="password"  />
+            <input type="password" name="password" required>
             <span class="fas fa-lock"></span>
             <label>Password</label>
         </div> 
