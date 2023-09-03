@@ -1,9 +1,9 @@
 $('#register-form').submit(function(e) {
-    e.preventDefault();
+    e.preventDefault(); 
 
     $.post("/register", $(this).serialize(),
-        function (res) {
-            console.log(res)
-        }
+        function (res, textStatus, jqXHR) {
+            console.log(res) 
+        },'json'
     );
 }) 
