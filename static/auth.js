@@ -3,7 +3,7 @@ $('#register-form').submit(function(e) {
 
     $.post("/register", $(this).serialize(),
         function (res) {
-            console.log(res)
+            $('#error_message').$('#error_message').append(res);
         }
     );
 }) 
