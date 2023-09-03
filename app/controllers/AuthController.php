@@ -30,22 +30,18 @@ class AuthController {
                     'min_password' => $error[2]
                 ]); 
                 return;
-            }
+            } 
 
-            json([
-                'status' => 'ok'
+            $query = $this->user->put("INSERT INTO users (name, password) VALUES (:name, :values)", [
+                ':name' => $username,
+                ':values' => $password, 
             ]); 
 
-            // $query = $this->user->query("INSERT INTO users (name, password) VALUES (:name, :values)", [
-            //     ':name' => $this->username,
-            //     ':values' => $this->password, 
-            // ]); 
-
-            // if ($query) {
-            //     echo 'ok';
-            // } else {
-            //     echo 'not okay';
-            // }
+            if ($query) {
+                echo 'ok';
+            } else {
+                echo 'not okay';
+            }
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
