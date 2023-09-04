@@ -47,7 +47,7 @@ class Users extends QueryBuilder {
         }
     } 
 
-    public function getUsers() {
+    public function contacts() {
         try {
             $column = implode(', ', $this->columns);
             return $this->get("SELECT $column FROM users WHERE id <> :id", [

@@ -16,7 +16,7 @@
         </div> 
         <ul class="user-list"> 
             <?php foreach ($contacts as $contact): ?>
-            <li>
+            <li onclick="window.location.href = '/room?to=<?= $contact['id'] ?>'">
                 <img src="static/img.jpg" alt="profile image" class="profile-image">
                 <div class="user-insight">
                     <p class="user-name"><?= $contact['name'] ?></p>
@@ -39,24 +39,29 @@
             <span id="toUser">User One</span>  
         </div>
         <div class="convo"> 
-            <div class="message_container">
-                <div class="img_cont_msg">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
-                </div>   
-                <span class="msg-time-from">05:00PM | Today</span> 
-                <p class="message_from">
-                    Hello this is my message how are you? 
-                </p>  
-            </div> 
-            <div class="message_container">
-                <p class="message_to">
-                    Hello this is my message how are you?  
-                </p>  
-                <span class="msg-time-to">05:00PM | Today</span> 
-                <div class="img_cont_msg">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
-                </div>  
-            </div> 
+            <?php foreach ($messages as $message): ?>
+                <?php if ($message['from_user_id'] === $_SESSION['user_id']) { ?>
+                    <div class="message_container">
+                        <div class="img_cont_msg">
+                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
+                        </div>   
+                        <span class="msg-time-from">05:00PM | Today</span> 
+                        <p class="message_from">
+                            <?= $message['message'] ?>
+                        </p>  
+                    </div> 
+                <?php } else { ?>
+                    <div class="message_container">
+                        <p class="message_to">
+                            <?= $message['message'] ?>
+                        </p>  
+                        <span class="msg-time-to">05:00PM | Today</span> 
+                        <div class="img_cont_msg">
+                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
+                        </div>  
+                    </div> 
+                <?php } ?>
+            <?php endforeach; ?> 
         </div> 
         <form id="send-form" enctype="multipart/form-data">  
                 <button type="button" id="files-btn">📎</button>
