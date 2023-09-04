@@ -14,19 +14,21 @@
             <h1>Contacts</h1>
             <input type="search" id="search-bar" placeholder="Search" class="search-bar">
         </div> 
-        <ul class="user-list">
+        <ul class="user-list"> 
+            <?php foreach ($contacts as $contact): ?>
             <li>
                 <img src="static/img.jpg" alt="profile image" class="profile-image">
                 <div class="user-insight">
-                    <p class="user-name">User One</p>
+                    <p class="user-name"><?= $contact['name'] ?></p>
                     <div class="status-container">
                         <div class="status"></div>
                         <p>Online</p>
                     </div>
                 </div> 
-            </li>   
+            </li>    
+            <?php endforeach; ?>
         </ul> 
-        <button id="logout-btn" onclick="window.location.href = '/'">
+        <button id="logout-btn" onclick="window.location.href = '/logout'">
             Logout
         </button> 
     </aside> 
@@ -64,7 +66,7 @@
         </form> 
     </main>  
     
-    <script src="static/script.js"></script>
+    <script src="static/socket.js"></script>
 </body>
 
 </html> 

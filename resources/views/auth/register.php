@@ -4,15 +4,15 @@
     <div class="text">
         Register
     </div>
-    <div id="error-msg"></div>
+    <div id="error-msg"> </div>
     <form id="register-form"> 
         <div class="field">
-            <input type="text" name="username" />
+            <input type="text" name="username" placeholder="Username" />
             <span class="fas fa-user"></span>
             <label>Username</label>
         </div>
         <div class="field">
-            <input type="password" name="password" />
+            <input type="password" name="password" placeholder="*********" />
             <span class="fas fa-lock"></span>
             <label>Password</label>
         </div> 

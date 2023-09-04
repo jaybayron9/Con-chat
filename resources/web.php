@@ -4,8 +4,9 @@ use Router\Router;
 use controler\RoomController;
 use AuthController\AuthController;
 
-Router::get('/', fn() => view('auth/login'));
-Router::get('/register', fn() => view('auth/register'));  
-Router::get('/room', [RoomController::class, 'index']);
-
+Router::get('/', [AuthController::class, 'index']);
+Router::get('/register', [AuthController::class, 'registerPage']);  
+Router::get('/room', [RoomController::class, 'index']); 
 Router::post('/register', [AuthController::class, 'register']);
+Router::post('/login', [AuthController::class, 'login']);
+Router::get('/logout', [AuthController::class, 'logout']); 

@@ -7,43 +7,71 @@ use utils\Validate;
 class AuthController {   
     private $user; 
 
-    public function __construct() { 
+    public function __construct() {
         $this->user = new Users(); 
     }
 
-    public function register() {     
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        try { 
-            $userExist = $this->user->get("SELECT name FROM users WHERE name = :username", [
-                ':username' => $username,
-            ]);
-
-            $error[] = Validate::check_empty($_POST) ? 'All field are required.' : null;
-            $error[] = count($userExist) > 0 ? 'This username is already taken.' : null;
-            $error[] = Validate::has_min_lenght($password, 7) ? 'The password must be at least 8 characters.' : null;
-
-            if (!empty(array_filter($error))) {
-                json([
-                    'empty' => $error[0],
-                    'taken' => $error[1],
-                    'min_password' => $error[2]
-                ]); 
-                return;
-            } 
-
-            $query = $this->user->put("INSERT INTO users (name, password) VALUES (:name, :values)", [
-                ':name' => $username,
-                ':values' => $password, 
-            ]); 
-
-            if ($query) {
-                echo 'ok';
-            } else {
-                echo 'not okay';
-            }
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+    public function index() { 
+        if (isset($_SESSION['user_id'])) {
+            header('location: /room');
         }
+        view('auth/login');
+    }
+
+    public function registerPage() { 
+        if (isset($_SESSION['user_id'])) {
+            header('location: /room');
+        }
+        view('auth/register');
+    }
+
+    public function register() {
+        $username = $_POST['username'];
+        $password = $_POST['password']; 
+
+        $error[] = count($this->user->usernameExist($username)) > 0 ? 'This username is already taken.' : null;
+        $error[] = Validate::check_empty($_POST) ? 'All field are required.' : null;
+        $error[] = Validate::has_min_lenght($password, 7) ? 'The password must be at least 8 characters.' : null;
+
+        if (!empty(array_filter($error))) {
+            json([
+                'status' => 'error',
+                'taken' => $error[0],
+                'empty' => $error[1],
+                'min_password' => $error[2]
+            ]); 
+            return;
+        }
+
+        $this->user->newUser([$username, $password]);
+        json([
+            'message' => 'Successfully registered. You can now log-in to you account.'
+        ]); 
+    }
+
+    public function login() {
+        $username = $_POST['username'];
+        $password = $_POST['password']; 
+
+        $error[] = Validate::check_empty($_POST) ? 'All field are required.' : null; 
+        $error[] = $this->user->checkUser([$username, $password]) ? 'Wrong username or password.' : null;
+
+        if (!empty(array_filter($error))) {
+            json([
+                'status' => 'error',
+                'empty' => $error[0],
+                'credentials' => $error[1]
+            ]);
+            return;
+        } 
+
+        json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function logout() {
+        unset($_SESSION['user_id']);
+        header('location: /');
     }
 }
