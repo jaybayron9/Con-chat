@@ -17,3 +17,10 @@ function json($data, $code = 200) {
     header('Content-Type: application/json');
     echo json_encode($data);
 } 
+
+function msgTime($datetime) { 
+    $dateTime = new DateTime($datetime);
+    $currentDate = new DateTime();  
+    $dateString = $currentDate->diff($dateTime) === 0 ? "Today" : ($currentDate->diff($dateTime) === 1 ? "Yesterday" : $dateTime->format('Y-m-d'));
+    return $dateTime->format('h:iA') . " | $dateString"; 
+}

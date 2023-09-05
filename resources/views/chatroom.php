@@ -14,7 +14,7 @@
             <h1>Contacts</h1>
             <input type="search" id="search-bar" placeholder="Search" class="search-bar">
         </div> 
-        <ul class="user-list"> 
+        <ul class="user-list">  
             <?php foreach ($contacts as $contact): ?>
             <li onclick="window.location.href = '/room?to=<?= $contact['id'] ?>'">
                 <img src="static/img.jpg" alt="profile image" class="profile-image">
@@ -38,14 +38,14 @@
             <img src="static/img.jpg" alt="profile-image" class="profile-image">
             <span id="toUser">User One</span>  
         </div>
-        <div class="convo"> 
+        <div id="convo" class="convo"> 
             <?php foreach ($messages as $message): ?>
-                <?php if ($message['from_user_id'] === $_SESSION['user_id']) { ?>
+                <?php if ($message['from_user_id'] !== $_SESSION['user_id']) { ?>
                     <div class="message_container">
                         <div class="img_cont_msg">
                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
                         </div>   
-                        <span class="msg-time-from">05:00PM | Today</span> 
+                        <span class="msg-time-from"><?= msgTime($message['created_at']) ?></span> 
                         <p class="message_from">
                             <?= $message['message'] ?>
                         </p>  
@@ -55,7 +55,7 @@
                         <p class="message_to">
                             <?= $message['message'] ?>
                         </p>  
-                        <span class="msg-time-to">05:00PM | Today</span> 
+                        <span class="msg-time-to"><?= msgTime($message['created_at']) ?></span> 
                         <div class="img_cont_msg">
                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="profile-image chat-img">
                         </div>  
@@ -63,15 +63,18 @@
                 <?php } ?>
             <?php endforeach; ?> 
         </div> 
-        <form id="send-form" enctype="multipart/form-data">  
-                <button type="button" id="files-btn">📎</button>
-                <button type="button" id="emojis-btn">😀</button> 
+        <form id="send-form">  
+            <input type="hidden" name="from_user" value="<?= $_SESSION['user_id'] ?>">
+            <input type="hidden" name="to_user" value="<?= $_GET['to'] ?>">
+            <button type="button" id="files-btn">📎</button>
+            <button type="button" id="emojis-btn">😀</button> 
             <textarea name="message" id="message" placeholder="Enter Message here..." cols="105" rows="1"></textarea> 
             <button type="submit" id="send-btn">Send</button> 
         </form> 
     </main>  
-    
-    <script src="static/socket.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="static/socket.js"></script>  
 </body>
 
 </html> 

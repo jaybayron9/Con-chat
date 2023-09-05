@@ -1,9 +1,9 @@
 <?php
-namespace ChatApp;
+namespace Socket;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class Socket  implements MessageComponentInterface {
+class Socket implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
@@ -17,12 +17,12 @@ class Socket  implements MessageComponentInterface {
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) { 
+    public function onMessage(ConnectionInterface $from, $msg) {   
         foreach ( $this->clients as $client ) { 
             if ( $from->resourceId == $client->resourceId ) {
                 continue;
-            } 
-            $client->send( "Client $from->resourceId said $msg" );
+            }
+            $client->send($msg);
         }
     }
 

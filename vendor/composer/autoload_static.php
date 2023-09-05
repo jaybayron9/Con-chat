@@ -25,6 +25,7 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Socket\\' => 7,
         ),
         'R' => 
         array (
@@ -39,7 +40,11 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Cache\\' => 10,
+            'Phpfastcache\\Tests\\' => 19,
+            'Phpfastcache\\' => 13,
             'PhpOption\\' => 10,
         ),
         'G' => 
@@ -54,10 +59,6 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
         'D' => 
         array (
             'Dotenv\\' => 7,
-        ),
-        'C' => 
-        array (
-            'ChatApp\\' => 8,
         ),
     );
 
@@ -85,6 +86,10 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
         'Symfony\\Component\\HttpFoundation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Socket\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/socket/bin',
         ),
         'React\\Stream\\' => 
         array (
@@ -118,10 +123,26 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
         array (
             0 => __DIR__ . '/..' . '/cboden/ratchet/src/Ratchet',
         ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phpfastcache\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/tests/lib',
+        ),
+        'Phpfastcache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpfastcache/phpfastcache/lib/Phpfastcache',
         ),
         'PhpOption\\' => 
         array (
@@ -142,10 +163,6 @@ class ComposerStaticInitaabae085f8c56f5e206971a30d6e1808
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
-        ),
-        'ChatApp\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/socket/bin',
         ),
     );
 
