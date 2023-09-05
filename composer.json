@@ -1,7 +1,8 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.5",
-        "cboden/ratchet": "^0.4"
+        "cboden/ratchet": "^0.4",
+        "phpfastcache/phpfastcache": "^9.1"
     },
     "autoload": {
         "psr-4": {
