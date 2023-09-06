@@ -12,3 +12,5 @@ Router::post('/register', [AuthController::class, 'register']);
 Router::post('/login', [AuthController::class, 'login']);
 Router::post('/send', [RoomController::class, 'sendMessage']);
 Router::post('/checkFrom', [RoomController::class, 'checkFrom']);
+
+Router::get('/new', fn() => view('chat'));

@@ -7,7 +7,6 @@ use Phpfastcache\CacheManager;
 use Phpfastcache\Config\ConfigurationOption;
 
 class RoomController {          
-         
     private $users;
     private $messages; 
 
@@ -42,6 +41,5 @@ class RoomController {
             json($_POST);
             return;
         }
-        json(['status' => 'private']);
     }
 }
