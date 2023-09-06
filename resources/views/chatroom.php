@@ -64,8 +64,8 @@
             <?php endforeach; ?> 
         </div> 
         <form id="send-form">  
-            <input type="hidden" name="from_user" value="<?= $_SESSION['user_id'] ?>">
-            <input type="hidden" name="to_user" value="<?= $_GET['to'] ?>">
+            <input type="text" name="from_user" id="from_user" value="<?= $_SESSION['user_id'] ?>">
+            <input type="text" name="to_user" id="to_user" value="<?= isset($_GET['to']) ? $_GET['to'] : '' ?>">
             <button type="button" id="files-btn">📎</button>
             <button type="button" id="emojis-btn">😀</button> 
             <textarea name="message" id="message" placeholder="Enter Message here..." cols="105" rows="1"></textarea> 

@@ -37,7 +37,11 @@ class RoomController {
         json($data);
     }
 
-    public function checkFrom() {
-        
+    public function checkFrom() { 
+        if ($_POST['from'] === $_POST['to_id_field'] && $_POST['to'] === $_POST['from_id_field']) {
+            json($_POST);
+            return;
+        }
+        json(['status' => 'private']);
     }
 }
