@@ -22,16 +22,21 @@ module.exports = {
       },
       height: {
         'contact': '38rem',
-        'contact-list': '24rem' 
+        'contact-list': '24rem', 
+        'contact-list-ph': '32rem', 
+        'head-image': '3.5rem', 
+        'chat-box': '28rem',  
       },
       width: {
         'insight-text': '68%;'
       },
       minHeight: {
-        'contact-image': '64px',
+        'contact-image': '64px', 
+        'chat-profile': '2rem'
       },
       minWidth: {
         'contact-image': '64px', 
+        'chat-profile': '2rem'
       }
     },
   },

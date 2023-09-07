@@ -21,6 +21,6 @@ function json($data, $code = 200) {
 function msgTime($datetime) { 
     $dateTime = new DateTime($datetime);
     $currentDate = new DateTime();  
-    $dateString = $currentDate->diff($dateTime) === 0 ? "Today" : ($currentDate->diff($dateTime) === 1 ? "Yesterday" : $dateTime->format('Y-m-d'));
-    return $dateTime->format('h:iA') . " | $dateString"; 
+    $dateString = $currentDate->diff($dateTime) === 0 ? "Today" : ($currentDate->diff($dateTime) === 1 ? "Yesterday" : $dateTime->format('d/m/y'));
+    return $dateTime->format('h:i A') . " | $dateString"; 
 }

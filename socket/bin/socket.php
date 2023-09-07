@@ -18,6 +18,7 @@ class Socket implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {   
+        // echo sprintf($msg);
         foreach ( $this->clients as $client ) { 
             if ( $from->resourceId == $client->resourceId ) {
                 continue;

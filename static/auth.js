@@ -1,32 +1,30 @@
 $('#register-form').submit(function(e) {
     e.preventDefault(); 
     $.post("/register", $(this).serialize(),
-        function (res) {  
-            if (res.status === 'error') {
-                $error = `<ul>`
-                    $error += res.taken !== null ? `<li>${res.taken}</li>` : '';
-                    $error += res.empty !== null ? `<li>${res.empty}</li>` : '';
-                    $error += res.min_password !== null ? `<li>${res.min_password}</li>` : '';
-                $error += `</ul>`
-                $('#error-msg').html($error)
+        (res) => {   
+            if (res.status === 'error') {  
+                res.empty !== null ? $('#error-msg').text(res.empty) : '';
+                res.taken !== null ? $('#username-error').text(res.taken) : '';
+                res.min_password !== null ? $('#password-error').text(res.min_password) : '';
                 return;
             }
-            $('#error-msg').text(res.message)
+            alert(res.message)
+            window.location.href = '/'
         }
     );
 })
 
 $('#login-form').submit(function(e) {
-    e.preventDefault();
+    e.preventDefault();  
 
     $.post("/login", $(this).serialize(),
-        function (res) {
+        (res) => { 
             if (res.status === 'error') {
                 $('#error-msg').text(res.credentials)
+                $('#username, #password').val('')
                 return;
             }
-            window.location.replace('/room')
+            window.location.replace('/chat')
         }
-    );
-    
+    ); 
 })

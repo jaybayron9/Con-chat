@@ -4,7 +4,7 @@ namespace controler;
 use Model\Users;
 use Model\Messages; 
 use Phpfastcache\CacheManager; 
-use Phpfastcache\Config\ConfigurationOption;
+use Phpfastcache\Config\ConfigurationOption; 
 
 class RoomController {          
     private $users;
@@ -13,18 +13,25 @@ class RoomController {
     public function __construct() {
         $this->users = new Users();
         $this->messages = new Messages(); 
-    }
-    
+    } 
+
     public function index() {
         if (!isset($_SESSION['user_id'])) {
             header('location: /');
         } 
         $contacts = $this->users->contacts();
         $messages = $this->messages->show([$_SESSION['user_id'], $_GET['to'] ?? '0']);   
-        view('chatroom', compact('contacts', 'messages'));     
-    } 
+        view('chat', compact('contacts', 'messages'));     
+    }
 
-    public function sendMessage() {
+    public function profileHead() { 
+        $user = $this->users->showProfileHead(['id' => $_POST['to_user']]);    
+        json($user);
+    }
+
+    public function sendMessage() {    
+        // dd($_FILES['files']);   
+
         $data = [
             'from' => $_POST['from_user'], 
             'to' => $_POST['to_user'], 

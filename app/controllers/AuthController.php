@@ -50,11 +50,13 @@ class AuthController {
     }
 
     public function login() {
-        $username = $_POST['username'];
-        $password = $_POST['password']; 
+        $credentials = [
+            'username' => $_POST['username'],
+            'password' => $_POST['password']
+        ]; 
 
         $error[] = Validate::check_empty($_POST) ? 'All field are required.' : null; 
-        $error[] = $this->user->checkUser([$username, $password]) ? 'Wrong username or password.' : null;
+        $error[] = $this->user->checkUser($credentials) ? 'Wrong username or password.' : null;
 
         if (!empty(array_filter($error))) {
             json([

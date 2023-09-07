@@ -82,7 +82,7 @@ class QueryBuilder extends ConnectDB {
 
     public function get($sql, $params = []) {
         try {
-            $statement = ConnectDB::$conn->prepare($sql);
+            $statement = ConnectDB::$conn->prepare($sql); 
             $statement->execute($params); 
             return $statement->fetchAll();
         } catch (PDOException $e) {

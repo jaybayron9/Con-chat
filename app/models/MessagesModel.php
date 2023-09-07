@@ -41,8 +41,8 @@ class Messages extends QueryBuilder {
                 ':from_user' => $data['from'],
                 ':to_user' => $data['to']
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
-    }
+    } 
 }
