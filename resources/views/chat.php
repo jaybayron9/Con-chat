@@ -1,7 +1,7 @@
 <?php view('partials/header') ?>
 
 <div class="flex justify-center items-center">
-    <div class="grid grid-cols-6 gap-10 w-full md:m-5">
+    <div class="grid grid-cols-6 gap-5 w-full md:m-5">
         <div id="aside" class="z-20 bg-bg col-span-6 md:col-span-2 shadow-out md:rounded-lg md:h-contact h-full fixed md:relative -left-full md:left-0 delay-100 duration-300 ease-out">
             <div class="m-5 flex flex-col gap-5 relative">
                 <div class="absolute right-0 -mt-3 -mr-2 z-10 md:hidden ">
@@ -77,7 +77,7 @@
                                     </span>
                                 </div>
                             </div>
-                        <?php else : ?>
+                        <?php else : ?> 
                             <div class="flex gap-2 ml-auto">
                                 <div class="bg-blue-600 text-white p-2 rounded-xl shadow-md flex flex-col ml-20">
                                     <p class="text-[15px] mb-2">
@@ -88,22 +88,23 @@
                                     </span>
                                 </div>
                                 <img src="/static/img.jpg" alt="" class="select-none ml-1 h-8 w-8 min-h-chat-profile min-w-chat-profile rounded-full mt-auto shadow-xl">
-                            </div>
+                            </div> 
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
-                <form id="send-form" class="p-2 flex items-center gap-x-4 mx-2">
+                <form id="send-form" class="flex items-center gap-x-4 mx-2 px-2">
                     <input type="hidden" name="from_user" id="from_user" value="<?= $_SESSION['user_id'] ?>">
                     <input type="hidden" name="to_user" id="to_user" value="<?= $_GET['to'] ?? $_SESSION['user_id'] ?>">
                     <div> 
                         <button type="button" id="files-btn" class="rotate-45 transform rounded-full shadow-out active:shadow-in p-2">📎</button>
-                        <input type="file" name="files[]" id="file-input" multiple class="hidden">
+                        <input type="file" name="images[]" id="file-input" multiple class="hidden">
                     </div>
                     <div>
                         <button type="button" id="emojis-btn"  data-popover-target="emoji" data-popover-trigger="click" class="rounded-full shadow-out active:shadow-in p-2 text-1xl">😀</button>
                     </div>
-                    <div id="upload-container" class="w-full flex">
-                        <textarea name="message" id="message" rows="1" placeholder="Aa..." class="w-full resize-none outline-none border-none ring-offset-0 focus:shadow-in-after rounded-lg shadow-in p-2 bg-gray-100"></textarea>
+                    <div class="w-full">
+                        <div id="upload-container" class="grid grid-cols-6 gap-3"></div>
+                        <textarea name="message" id="message" rows="1" placeholder="Aa..." class="w-full h-10 resize-none outline-none border-none ring-offset-0 focus:shadow-in-after rounded-lg shadow-in p-2 bg-gray-100"></textarea>
                     </div>
                     <div class="flex items-center">
                         <button type="submit" class="text-blue-500 rounded-full hover:scale-125 ease-in-out duration-150">

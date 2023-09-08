@@ -10,14 +10,12 @@ conn.onmessage = (e) => {
         req.to_id_field = $('#to_user').val();
         req.from_id_field = $('#from_user').val();
 
-        $.post("/checkFrom", req, (res, status) => { 
-            if (status === 'success') {   
-                if (typeof res.status !== 'undefined')
-                    return;   
-                $('#convo').append(receiver(
-                    res.message, res[0].date
-                )); 
-            } 
+        $.post("/checkFrom", req, (res) => { 
+            if (typeof res.status !== 'undefined')
+                return;   
+            $('#convo').append(receiver(
+                res.message, res[0].date
+            )); 
         });  
     } catch (error) { 
         console.error("Error parsing JSON:", error); 
@@ -34,12 +32,17 @@ $('#send-form').submit(function(e) {
         processData: false,
         contentType: false,
         success: (res) => { 
-            console.log(res)
-            conn.send(JSON.stringify(res));
-            $('#convo').append(sender(
-                res.message, res[0].date
-            )); 
-            $('#message').val('');
+            console.table(res)
+            // if (typeof res.noMessage !== 'undefined')
+            //     return;
+
+            // conn.send(JSON.stringify(res));
+            // $('#convo').append(sender(
+            //     res.message, res[0].date
+            // )); 
+            $('#message').val(''); 
+            $(".send-image").detach(); 
+            $("#file-input").val(null);  
         }
     }); 
 })
@@ -66,10 +69,7 @@ function receiver($message, $created) {
     return html;
 }
 
-
-$.post("/profile/head", {
-        'to_user': $('#to_user').val()
-    }, (res) => { 
+$.post("/profile/head", {'to_user': $('#to_user').val()}, (res) => { 
         $('#head-name').text(res[0].name)   
     }
 );
@@ -107,28 +107,31 @@ $('.search').on('keyup input', function () {
     }
 });
 
-$('#files-btn').on('click', function() {
+$('#files-btn').on('click', function() { 
     $('#file-input').click();
 });
- 
-$('#file-input').change(function() {
+
+$('#file-input').on('change', function() {
     var fileNames = []; 
-    $('#upload-container').empty();
-    
     $.each(this.files, function(i, file) {
-        fileNames.push(file.name); 
-        var img = document.createElement('img');
-        img.src = URL.createObjectURL(file);
-
-        img.style.width = '100px';
-        img.style.height = '100px';
-        $('#upload-container').addClass('grid grid-cols-6')
+        fileNames.push(file.name);
+        var img = $('<img />', {
+            src: URL.createObjectURL(file),
+            css: {
+                width: '80px',
+                height: '80px'
+            }
+        }).addClass('send-image');
         $('#upload-container').append(img);
-    }); 
-}); 
+    });
+});
 
+
+
+// Memes
+// https://emoji-api.com/emojis?access_key=af43e81b4744bf6ceaee44bdfeebb9b7715095c7
 // Emojis
-// $.get("https://emoji-api.com/emojis?access_key=af43e81b4744bf6ceaee44bdfeebb9b7715095c7",
+// $.get("https://api.imgflip.com/ai_meme",
 //     function (res, textStatus, jqXHR) {
 //         console.table(res)
 //     }

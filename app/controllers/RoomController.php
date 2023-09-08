@@ -2,9 +2,11 @@
 
 namespace controler;
 use Model\Users;
-use Model\Messages; 
-use Phpfastcache\CacheManager; 
-use Phpfastcache\Config\ConfigurationOption; 
+use Model\Messages;
+use utils\FileHandler;
+use utils\Validate;
+// use Phpfastcache\CacheManager; 
+// use Phpfastcache\Config\ConfigurationOption; 
 
 class RoomController {          
     private $users;
@@ -29,18 +31,30 @@ class RoomController {
         json($user);
     }
 
-    public function sendMessage() {    
-        // dd($_FILES['files']);   
+    public function sendMessage() {     
+        $error['no_message'] = Validate::input_empty($_POST['message']) ?? null; 
 
-        $data = [
-            'from' => $_POST['from_user'], 
-            'to' => $_POST['to_user'], 
-            'message' => $_POST['message'] 
-        ]; 
-        $this->messages->insert($data);  
-        $convo = $this->messages->lastMessage($data); 
-        array_push($data, ['date' => msgTime($convo[0]['created_at'])]);
-        json($data);
+        if (!empty(array_filter($error))) {
+            json([
+                'noMessage' => $error['no_message']
+            ]); 
+        } 
+
+        
+        FileHandler::handleFileUpload($_FILES['images'], 'storage');
+
+
+
+        // $data = [
+        //     'from' => htmlentities($_POST['from_user']), 
+        //     'to' => htmlentities($_POST['to_user']), 
+        //     'message' => htmlentities($_POST['message']) 
+        // ]; 
+
+        // $this->messages->insert($data);  
+        // $convo = $this->messages->lastMessage($data); 
+        // array_push($data, ['date' => msgTime($convo[0]['created_at'])]);
+        // json($data);
     }
 
     public function checkFrom() { 

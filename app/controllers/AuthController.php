@@ -13,14 +13,14 @@ class AuthController {
 
     public function index() { 
         if (isset($_SESSION['user_id'])) {
-            header('location: /room');
+            header('location: /chat');
         }
         view('auth/login');
     }
 
     public function registerPage() { 
         if (isset($_SESSION['user_id'])) {
-            header('location: /room');
+            header('location: /chat');
         }
         view('auth/register');
     }

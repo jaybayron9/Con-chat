@@ -85,6 +85,10 @@ class Validate {
         return false;
     } 
 
+    public static function input_empty($value) {
+        return empty(trim($value));
+    }
+
     public static function is_image($image):bool { 
         if (!empty($image) && $image['error'] === UPLOAD_ERR_OK) {  
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -92,9 +96,51 @@ class Validate {
             return in_array($fileExtension, $allowedExtensions) ? false : true; 
         }  
         return true;
-    }
+    } 
 
-    public static function is_document($document): bool {
+    public static function handleFileUpload($fileArray, $destinationDirectory) { 
+        $maxFileSize = 5 * 1024 * 1024; 
+        $uploadSuccess = true;
+        $uploadedFiles = [];
+    
+        foreach ($fileArray['name'] as $key => $fileName) {
+            if (!empty($fileName)) {
+                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                $uniqueID = uniqid();
+                $newFileName = $uniqueID . '.' . $fileExtension;
+                $fileSize = $fileArray['size'][$key];
+                $fileTmpName = $fileArray['tmp_name'][$key];
+    
+                $validationResult = self::validateFile($fileExtension, $fileSize, $maxFileSize);
+                
+                if ($validationResult === true) {
+                    $destinationPath = $destinationDirectory . '/' . $newFileName;
+                    if (move_uploaded_file($fileTmpName, $destinationPath)) {
+                        $uploadedFiles[] = $newFileName;
+                    } else {
+                        $uploadSuccess = false;
+                    }
+                } else {
+                    $uploadSuccess = false;
+                }
+            }
+        }
+    
+        return ['success' => $uploadSuccess, 'uploadedFiles' => $uploadedFiles];
+    }
+    
+    private static function validateFile($fileExtension, $fileSize, $maxFileSize) { 
+        if (!in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+            return false;
+        } 
+        if ($fileSize > $maxFileSize) {
+            return false;
+        } 
+        return true;  
+    }
+    
+
+    public static function is_document($document):bool {
         if (!empty($document) && $document['error'] === UPLOAD_ERR_OK) {
             $allowedExtensions = ['pdf', 'doc', 'docx', 'txt'];
             $fileExtension = strtolower(pathinfo($document['name'], PATHINFO_EXTENSION));
