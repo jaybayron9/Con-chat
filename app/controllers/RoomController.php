@@ -31,17 +31,34 @@ class RoomController {
         json($user);
     }
 
-    public function sendMessage() {     
-        $error['no_message'] = Validate::input_empty($_POST['message']) ?? null; 
+    public function sendMessage() {      
+        $response = array();
 
-        if (!empty(array_filter($error))) {
-            json([
-                'noMessage' => $error['no_message']
-            ]); 
-        } 
+    if (!empty($_FILES['images']['tmp_name'][0])) {
+        // Define the target directory where you want to move the uploaded file
+        $targetDir = 'storage/';
 
-        
-        FileHandler::handleFileUpload($_FILES['images'], 'storage');
+        // Get the original file name
+        $originalName = $_FILES['images']['name'][0];
+
+        // Construct the full path to the target file
+        $targetFile = $targetDir . $originalName;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['images']['tmp_name'][0], $targetFile)) {
+            $response['success'] = true;
+            $response['message'] = "File uploaded successfully.";
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Error moving the file.";
+        }
+    } else {
+        $response['success'] = false;
+        $response['message'] = "No file uploaded.";
+    }
+
+    // Send a JSON response back to the client 
+    return json_encode($response);
 
 
 

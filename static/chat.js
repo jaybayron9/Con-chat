@@ -22,17 +22,50 @@ conn.onmessage = (e) => {
     }  
 }; 
 
-$('#send-form').submit(function(e) {  
-    e.preventDefault();   
+$('#send-form').submit(function(e) {
+    e.preventDefault();
 
+    var formData = new FormData(this); // Create a FormData object from the form
     $.ajax({
-        type: "POST",
         url: "/send",
-        data: new FormData(this),
+        type: "POST",
+        data: formData,
         processData: false,
         contentType: false,
-        success: (res) => { 
-            console.table(res)
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR) {
+            console.log(data); // Handle the response from the server
+        }
+    });
+});
+
+
+// $('#send-form').submit(function(e) {
+//     e.preventDefault();
+//     $.ajax({
+//         type: "POST",
+//         url: "/send",
+//         data: new FormData(this),
+//         processData: false,
+//         contentType: false,  
+//         success: function (response) {
+//             console.log(response)
+//         }
+//     });
+// }) 
+
+
+// $('#send-form').submit(function(e) {  
+//     e.preventDefault();   
+
+//     $.ajax({
+//         type: "POST",
+//         url: "/send",
+//         data: new FormData(this),
+//         processData: false,
+//         contentType: false,
+//         success: (res) => { 
+//             console.table(res)
             // if (typeof res.noMessage !== 'undefined')
             //     return;
 
@@ -40,12 +73,12 @@ $('#send-form').submit(function(e) {
             // $('#convo').append(sender(
             //     res.message, res[0].date
             // )); 
-            $('#message').val(''); 
-            $(".send-image").detach(); 
-            $("#file-input").val(null);  
-        }
-    }); 
-})
+//             $('#message').val(''); 
+//             $(".send-image").detach(); 
+//             $("#file-input").val(null);  
+//         }
+//     }); 
+// })
 
 function sender($message, $created) {
     var html = `<div class="flex gap-2 ml-auto">`
