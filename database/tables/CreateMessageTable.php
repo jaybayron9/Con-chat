@@ -10,6 +10,7 @@ class CreateMessageTable extends ConnectDB {
             ->integer('from_user_id')->notNullable()
             ->integer('to_user_id')->notNullable()
             ->longtext('message')->notNullable()
+            ->longtext('file')->notNullable()
             ->build();
     }
 

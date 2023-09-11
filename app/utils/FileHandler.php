@@ -3,7 +3,8 @@
 namespace utils;
 
 class FileHandler {
-    public static function upload_image($files, $storeDir) { 
+    public static function newFileName($files, $storeDir) { 
+        $newFileName = '';
         foreach ($files as $key => $value) {  
             for ($i = 0; $i < count($value['size']); $i++) {
                 $maxFileSize = 5* 1024 * 1024;
@@ -16,12 +17,19 @@ class FileHandler {
                     json(['error' => 'Invalid file format. Only JPG, JPEG, PNG, and GIF are allowed']);
                 }
 
-                $newFileName = "$storeDir/" . uniqid() . ".$fileExtension";
-                if (!empty($value['name'][$i])) {
-                    move_uploaded_file($value['tmp_name'][$i], $newFileName);
-                    return true;
-                }
+                $newFileName .= "$storeDir/" . uniqid() . ".$fileExtension~";
             }  
         }
+        return $newFileName;
     }
 } 
+
+
+// try {
+//     $this->put("UPDATE messages SET file = :file, WHERE id = :id", [
+//         ':file', $newFileName,
+//         ':id', $data['id']
+//     ]);
+// } catch (\Exception $e) { 
+//     json(['error' => $e->getMessage()]);
+// }

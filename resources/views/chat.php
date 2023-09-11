@@ -72,6 +72,17 @@
                                     <p class="text-[15px] mb-2">
                                         <?= $message['message'] ?>
                                     </p>
+                                    <?php 
+                                    if ($message['file'] !== ''): 
+                                        $files = explode('~', $message['file']);
+                                        $filterFile = array_filter($files);  
+                                    ?>
+                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2"> 
+                                        <?php foreach($filterFile as $file):  ?>
+                                            <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600"> 
+                                        <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <span class="text-[11px] ml-auto">
                                         <?= msgTime($message['created_at']) ?>
                                     </span>
@@ -83,6 +94,17 @@
                                     <p class="text-[15px] mb-2">
                                         <?= $message['message'] ?>
                                     </p>
+                                    <?php 
+                                    if ($message['file'] !== ''): 
+                                        $files = explode('~', $message['file']);
+                                        $filterFile = array_filter($files);  
+                                    ?>
+                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2"> 
+                                        <?php foreach($filterFile as $file):  ?>
+                                            <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600"> 
+                                        <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <span class="text-[11px]">
                                         <?= msgTime($message['created_at']) ?>
                                     </span>
@@ -92,7 +114,7 @@
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
-                <form id="send-form" class="flex items-center gap-x-4 mx-2 px-2">
+                <form id="send-form"  class="flex items-center gap-x-4 mx-2 px-2">
                     <input type="hidden" name="from_user" id="from_user" value="<?= $_SESSION['user_id'] ?>">
                     <input type="hidden" name="to_user" id="to_user" value="<?= $_GET['to'] ?? $_SESSION['user_id'] ?>">
                     <div> 
@@ -100,7 +122,8 @@
                         <input type="file" name="images[]" id="file-input" multiple class="hidden">
                     </div>
                     <div>
-                        <button type="button" id="emojis-btn"  data-popover-target="emoji" data-popover-trigger="click" class="rounded-full shadow-out active:shadow-in p-2 text-1xl">😀</button>
+                        <button type="button" data-ripple-light="true" data-popover-target="emoji-popover" id="emojis-btn" class="rounded-full shadow-out active:shadow-in p-2 text-1xl">😀</button>
+                        <div id="emoji-div" data-popover="emoji-popover" class="absolute overflow-y-auto overflow-x-hidden z-20 max-w-sm max-h-52 grid grid-cols-12 bg-white p-2 border border-gray-500 rounded-md shadow-md"></div>
                     </div>
                     <div class="w-full">
                         <div id="upload-container" class="grid grid-cols-6 gap-3"></div>
@@ -120,4 +143,4 @@
 </div>  
 
 <?php view('partials/footer') ?>
-<script src="static/chat.js"></script>
+<script src="static/chat.js"></script> 

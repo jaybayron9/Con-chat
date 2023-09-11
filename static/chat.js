@@ -1,3 +1,11 @@
+function convoBar() {
+    $(document).ready(function () { 
+        var myElement = $("#convo"); 
+        myElement.scrollTop(myElement[0].scrollHeight);
+    });
+}
+convoBar(); 
+
 var conn = new WebSocket('ws://localhost:8080'); 
 
 conn.onopen = () => {  
@@ -16,69 +24,44 @@ conn.onmessage = (e) => {
             $('#convo').append(receiver(
                 res.message, res[0].date
             )); 
+            convoBar(); 
         });  
     } catch (error) { 
         console.error("Error parsing JSON:", error); 
     }  
-}; 
+};     
 
-$('#send-form').submit(function(e) {
-    e.preventDefault();
-
-    var formData = new FormData(this); // Create a FormData object from the form
-    $.ajax({
-        url: "/send",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        success: function(data, textStatus, jqXHR) {
-            console.log(data); // Handle the response from the server
-        }
-    });
+$('#message').on('keypress', function(e) {
+    if (e.which === 13) {   
+        $('#send-form').submit();
+    }
 });
 
+$('#send-form').submit(function(e) {  
+    e.preventDefault();   
 
-// $('#send-form').submit(function(e) {
-//     e.preventDefault();
-//     $.ajax({
-//         type: "POST",
-//         url: "/send",
-//         data: new FormData(this),
-//         processData: false,
-//         contentType: false,  
-//         success: function (response) {
-//             console.log(response)
-//         }
-//     });
-// }) 
+    $.ajax({
+        type: "POST",
+        url: "/send",
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: (res) => { 
+            console.table(res)
+            if (typeof res.noMessage !== 'undefined')
+                return;
 
-
-// $('#send-form').submit(function(e) {  
-//     e.preventDefault();   
-
-//     $.ajax({
-//         type: "POST",
-//         url: "/send",
-//         data: new FormData(this),
-//         processData: false,
-//         contentType: false,
-//         success: (res) => { 
-//             console.table(res)
-            // if (typeof res.noMessage !== 'undefined')
-            //     return;
-
-            // conn.send(JSON.stringify(res));
-            // $('#convo').append(sender(
-            //     res.message, res[0].date
-            // )); 
-//             $('#message').val(''); 
-//             $(".send-image").detach(); 
-//             $("#file-input").val(null);  
-//         }
-//     }); 
-// })
+            conn.send(JSON.stringify(res));
+            $('#convo').append(sender(
+                res.message, res[0].date
+            )); 
+            convoBar(); 
+            $('#message').val(''); 
+            $(".send-image").detach(); 
+            $("#file-input").val(null);  
+        }
+    }); 
+});
 
 function sender($message, $created) {
     var html = `<div class="flex gap-2 ml-auto">`
@@ -100,7 +83,7 @@ function receiver($message, $created) {
         html +=    `</div>`
         html +=`</div>`
     return html;
-}
+} 
 
 $.post("/profile/head", {'to_user': $('#to_user').val()}, (res) => { 
         $('#head-name').text(res[0].name)   
@@ -157,15 +140,31 @@ $('#file-input').on('change', function() {
         }).addClass('send-image');
         $('#upload-container').append(img);
     });
-});
+}); 
 
+// Memes :
+// https://api.imgflip.com/ai_meme
+// Emojis :
+// https://emoji-api.com/emojis?access_key=af43e81b4744bf6ceaee44bdfeebb9b7715095c7 
+$.get("https://emoji-api.com/emojis?access_key=af43e81b4744bf6ceaee44bdfeebb9b7715095c7",
+    function (res, textStatus, jqXHR) { 
+        if (textStatus === "success") { 
+            $.each(res, (index, value) => { 
+                var html = `<button type="button" value="${value.character}" data-ripple-light="true" class="emojis middle none center transition-all hover:shadow-lg hover:shadow-gray-500 focus:opacity-[2] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">`;
+                html += value.character;
+                html += '</button>';
+                $('#emoji-div').append(html);
+            });
 
-
-// Memes
-// https://emoji-api.com/emojis?access_key=af43e81b4744bf6ceaee44bdfeebb9b7715095c7
-// Emojis
-// $.get("https://api.imgflip.com/ai_meme",
-//     function (res, textStatus, jqXHR) {
-//         console.table(res)
-//     }
-// );
+            $('.emojis').click(function() { 
+                var emojiValue = $(this).attr('value'); 
+                var inputField = $('#message'); 
+                var currentInputValue = inputField.val(); 
+                var newInputValue = currentInputValue + emojiValue; 
+                inputField.val(newInputValue);
+            });
+        } else {
+            console.error("Error fetching emojis:", textStatus);
+        }
+    }
+);

@@ -4,5 +4,8 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
+  },
+  "dependencies": {
+    "@material-tailwind/html": "^2.0.0"
   }
 }
