@@ -58,7 +58,7 @@ class Users extends QueryBuilder {
         }
     }
 
-    public function showProfileHead($data = []) {
+    public function showProfile($data = []) {
         try {
             return $this->get("SELECT name FROM users WHERE id = :id", [
                 'id' => $data['id']

@@ -23,12 +23,13 @@ class RoomController {
             header('location: /');
         } 
         $contacts = $this->users->contacts();
-        $messages = $this->messages->show([$_SESSION['user_id'], $_GET['to'] ?? '0']);   
-        view('chat', compact('contacts', 'messages'));     
+        $messages = $this->messages->show([$_SESSION['user_id'], $_GET['to'] ?? $_SESSION['user_id']]);   
+        $logUser = $this->users->showProfile(['id' => $_SESSION['user_id']]);
+        view('chat', compact('contacts', 'messages', 'logUser'));     
     }
 
     public function profileHead() { 
-        $user = $this->users->showProfileHead(['id' => $_POST['to_user']]);    
+        $user = $this->users->showProfile(['id' => $_POST['to_user']]);    
         json($user);
     }
 
@@ -58,6 +59,27 @@ class RoomController {
         array_push($data, ['date' => msgTime($convo[0]['created_at'])]);   
         json($data);
     } 
+
+    public function lastMessage() {  
+        $dataToPass = [];  
+        foreach ($_POST['to'] as $id) {
+            $data = [
+                'from' => $_POST['from'],
+                'to' => $id,
+            ]; 
+            
+            $lastMessage = $this->messages->user_last_message($data); 
+
+            foreach ($lastMessage as $message) {
+                $dataToPass[] = [
+                    'message' => $message['message'],
+                    'from' => $message['from_user_id'],
+                    'created_at' => msgTime($message['created_at'])
+                ];
+            }
+        }
+        json($dataToPass);
+    }
 
     public function checkFrom() { 
         if ($_POST['from'] === $_POST['to_id_field'] && $_POST['to'] === $_POST['from_id_field']) {

@@ -19,17 +19,26 @@ conn.onmessage = (e) => {
         req.from_id_field = $('#from_user').val();
 
         $.post("/checkFrom", req, (res) => { 
+            notifiedMessage() 
             if (typeof res.status !== 'undefined')
                 return;   
             $('#convo').append(receiver(
                 res.message, res[0].date
-            )); 
+            ));  
             convoBar(); 
         });  
     } catch (error) { 
         console.error("Error parsing JSON:", error); 
     }  
-};     
+};
+
+conn.onclose = (e) => {
+    if (e.wasClean) {
+        console.log(`Connection closed cleanly, code=${e.code}, reason=${e.reason}`);
+    } else {
+        console.error(`Connection abruptly closed`);
+    }
+}
 
 $('#message').on('keypress', function(e) {
     if (e.which === 13) {   
@@ -46,8 +55,7 @@ $('#send-form').submit(function(e) {
         data: new FormData(this),
         processData: false,
         contentType: false,
-        success: (res) => { 
-            console.table(res)
+        success: (res) => {  
             if (typeof res.noMessage !== 'undefined')
                 return;
 
@@ -85,6 +93,33 @@ function receiver($message, $created) {
     return html;
 } 
 
+function lastMessage() {
+    var userValues = [];  
+    $('.last-message').each(function () {
+        var userValue = $(this).attr('user');
+        userValues.push(userValue);
+    }); 
+    return userValues;
+}
+
+function notifiedMessage() {
+    $.post("/lastMessage", {
+            from: $('#from_user').val(),
+            to: lastMessage()
+        }, 
+        (res, stats) => {
+            // console.log("Response: ", res)
+            if (stats === 'success') { 
+                for (let i = 0; i < res.length; i++) { 
+                    $(`[user="last-message${res[i].from}"]`).text(res[i].message);
+                    $(`[user="last-date${res[i].from}"]`).text(res[i].created_at);
+                }
+            }
+        }
+    );
+} notifiedMessage();
+
+
 $.post("/profile/head", {'to_user': $('#to_user').val()}, (res) => { 
         $('#head-name').text(res[0].name)   
     }
@@ -93,6 +128,7 @@ $.post("/profile/head", {'to_user': $('#to_user').val()}, (res) => {
 $('#show-bar').click(() => {
     $('#aside').removeClass('-left-full').addClass('w-full');
 })
+
 $('#close-bar').click(() => {
     $('#aside').removeClass('w-full').addClass('-left-full');
 })

@@ -29,7 +29,8 @@ module.exports = withMT({
         'chat-box': '28rem',  
       },
       width: {
-        'insight-text': '68%;'
+        'insight-text': '68%;',
+        'sm-insight-text': '20%'
       },
       minHeight: {
         'contact-image': '64px', 

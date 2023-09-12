@@ -5,7 +5,7 @@ use SQL\QueryBuilder;
 
 class Messages extends QueryBuilder {
     protected $columns = [
-        'from_user_id', 'to_user_id', 'message', 'file', 'created_at', 'updated_at'
+        'id', 'from_user_id', 'to_user_id', 'message', 'file', 'created_at', 'updated_at'
     ];
 
     public function show($data = []) {
@@ -18,7 +18,7 @@ class Messages extends QueryBuilder {
                 ':to_user1' => $data[0]
             ]);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }
 
@@ -32,18 +32,33 @@ class Messages extends QueryBuilder {
             ]); 
             return $insertMessage ? true : false;
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }  
 
     public function lastMessage($data = []) {
         try { 
-            return $this->get("SELECT max(id), created_at, file from messages WHERE from_user_id = :from_user and to_user_id = :to_user LIMIT 1", [
+            $columns = implode(', ', $this->columns);
+            return $this->get("SELECT {$columns} FROM messages WHERE (from_user_id = :from_user AND to_user_id = :to_user) OR (from_user_id = :to_user1 AND  to_user_id = :from_user1) ORDER BY created_at DESC LIMIT 1", [
                 ':from_user' => $data['from'],
-                ':to_user' => $data['to']
+                ':to_user' => $data['to'],
+                ':to_user1' => $data['to'],
+                ':from_user1' => $data['from'],
             ]);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
-    } 
+    }
+
+    public function user_last_message($data = []) {
+        try {
+            $columns = implode(', ', $this->columns);
+            return $this->get("SELECT {$columns} FROM messages WHERE to_user_id = :from and from_user_id = :to ORDER BY created_at DESC LIMIT 1", [
+                ':from' => $data['from'],
+                ':to' => $data['to']
+            ]);
+        } catch (\Exception $e) {
+            json(['error' => $e->getMessage()]);
+        }
+    }
 }

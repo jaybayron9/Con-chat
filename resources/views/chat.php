@@ -18,16 +18,15 @@
                         <li onclick="window.location.href = '/chat?to=<?= $contact['id'] ?>'" class="contacts-li w-full shadow-out rounded-full inline-flex hover:shadow-in-after active:shadow-in hover:cursor-pointer select-none">
                             <img src="static/img.jpg" alt="profile image" class="select-none h-16 w-16 min-h-contact-image min-w-contact-image rounded-full">
                             <div class="mt-auto -ml-3 mb-2">
-                                <div class="h-3 w-3 bg-green-500 rounded-full border border-gray-800"></div>
+                                <div user="<?= $contact['id'] ?>" class="status h-3 w-3 bg-green-500 rounded-full border border-gray-800"></div>
                             </div>
                             <div class="px-2 py-1 flex flex-col w-full">
-                                <h3 class="font-poppins select-none"><?= $contact['name'] ?></h3>
-                                <div class="relative w-full -mt-1">
-                                    <p class="text-sm font-light select-none whitespace-nowrap text-ellipsis overflow-hidden w-insight-text">
-                                        Message here
+                                <h3 class="font-poppins select-none capitalize"><?= $contact['name'] ?></h3>
+                                <div user="<?= $contact['id'] ?>" class="last-message relative -mt-1">
+                                    <p user="last-message<?= $contact['id'] ?>" class="text-sm font-light select-none whitespace-nowrap text-ellipsis overflow-hidden md:w-insight-text w-sm-insight-text">
                                     </p>
-                                    <div class="text-[10px] ml-auto mt-auto select-none whitespace-nowrap">
-                                        05:00 PM | 9/7/23
+                                    <div user="last-date<?= $contact['id'] ?>" class="text-[10px] ml-auto mt-auto select-none whitespace-nowrap">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -42,6 +41,7 @@
                 <button class="select-none shadow-out py-1 px-3 font-poppins active:shadow-in-after text-gray-800 rounded-full mt-auto  bg-bg">
                     Settings
                 </button>
+                <h5 class="font-semibold text-gray-600 capitalize mt-2 ml-auto mr-5"><?= $logUser[0]['name'] ?></h5>
             </div>
         </div>
         <div class="col-span-6 md:col-span-4 shadow-out md:rounded-lg h-full fixed md:relative w-full">
@@ -55,7 +55,7 @@
                         <div class="h-3 w-3 bg-green-500 rounded-full border border-gray-800"></div>
                     </div>
                     <div class="flex ml-3 items-center">
-                        <h3 id="head-name" class="font-poppins"></h3>
+                        <h3 id="head-name" user="" class="status font-poppins capitalize"></h3>
                     </div>
                     <div type="button" class="inline-flex ml-auto items-center font-poppins font-extrabold text-gray-600">
                         <button type="button" title="Video call" class="p-2 mr-2 rounded-full shadow-out active:shadow-in">
@@ -72,15 +72,15 @@
                                     <p class="text-[15px] mb-2">
                                         <?= $message['message'] ?>
                                     </p>
-                                    <?php 
-                                    if ($message['file'] !== ''): 
+                                    <?php
+                                    if ($message['file'] !== '') :
                                         $files = explode('~', $message['file']);
-                                        $filterFile = array_filter($files);  
+                                        $filterFile = array_filter($files);
                                     ?>
-                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2"> 
-                                        <?php foreach($filterFile as $file):  ?>
-                                            <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600"> 
-                                        <?php endforeach; ?>
+                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2">
+                                            <?php foreach ($filterFile as $file) :  ?>
+                                                <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600">
+                                            <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>
                                     <span class="text-[11px] ml-auto">
@@ -88,21 +88,21 @@
                                     </span>
                                 </div>
                             </div>
-                        <?php else : ?> 
+                        <?php else : ?>
                             <div class="flex gap-2 ml-auto">
                                 <div class="bg-blue-600 text-white p-2 rounded-xl shadow-md flex flex-col ml-20">
                                     <p class="text-[15px] mb-2">
                                         <?= $message['message'] ?>
                                     </p>
-                                    <?php 
-                                    if ($message['file'] !== ''): 
+                                    <?php
+                                    if ($message['file'] !== '') :
                                         $files = explode('~', $message['file']);
-                                        $filterFile = array_filter($files);  
+                                        $filterFile = array_filter($files);
                                     ?>
-                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2"> 
-                                        <?php foreach($filterFile as $file):  ?>
-                                            <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600"> 
-                                        <?php endforeach; ?>
+                                        <div class="grid <?= count($filterFile) == 1 ? 'md:grid-cols-1 grid-cols-1' : ' md:grid-cols-3 grid-cols-2' ?> gap-2">
+                                            <?php foreach ($filterFile as $file) :  ?>
+                                                <img src="<?= $file ?>" alt="Image" class="h-40 w-40 rounded-md shadowm-md border border-gray-600">
+                                            <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>
                                     <span class="text-[11px]">
@@ -110,20 +110,23 @@
                                     </span>
                                 </div>
                                 <img src="/static/img.jpg" alt="" class="select-none ml-1 h-8 w-8 min-h-chat-profile min-w-chat-profile rounded-full mt-auto shadow-xl">
-                            </div> 
+                            </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
-                <form id="send-form"  class="flex items-center gap-x-4 mx-2 px-2">
+                <form id="send-form" class="flex items-center gap-x-4 mx-2 px-2">
                     <input type="hidden" name="from_user" id="from_user" value="<?= $_SESSION['user_id'] ?>">
                     <input type="hidden" name="to_user" id="to_user" value="<?= $_GET['to'] ?? $_SESSION['user_id'] ?>">
-                    <div> 
+                    <div>
                         <button type="button" id="files-btn" class="rotate-45 transform rounded-full shadow-out active:shadow-in p-2">📎</button>
                         <input type="file" name="images[]" id="file-input" multiple class="hidden">
                     </div>
                     <div>
-                        <button type="button" data-ripple-light="true" data-popover-target="emoji-popover" id="emojis-btn" class="rounded-full shadow-out active:shadow-in p-2 text-1xl">😀</button>
-                        <div id="emoji-div" data-popover="emoji-popover" class="absolute overflow-y-auto overflow-x-hidden z-20 max-w-sm max-h-52 grid grid-cols-12 bg-white p-2 border border-gray-500 rounded-md shadow-md"></div>
+                        <button type="button" data-ripple-light="true" data-popover-target="popover-animation" class="rounded-full shadow-out active:shadow-in p-2 text-1xl">
+                        😀
+                        </button>
+                        <div id="emoji-div" data-popover="popover-animation" data-popover-mount="opacity-100 scale-100" data-popover-unmount="opacity-0 scale-0 pointer-events-none" data-popover-transition="transition-all duration-200 origin-bottom" class="absolute overflow-y-auto overflow-x-hidden z-20 max-w-sm max-h-52 grid grid-cols-12 bg-white p-2 border border-gray-500 rounded-md shadow-md"> 
+                        </div>
                     </div>
                     <div class="w-full">
                         <div id="upload-container" class="grid grid-cols-6 gap-3"></div>
@@ -140,7 +143,7 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
 
 <?php view('partials/footer') ?>
-<script src="static/chat.js"></script> 
+<script src="static/chat.js"></script>
