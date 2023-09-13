@@ -13,8 +13,7 @@ $autoloadDirectories = [
     'database/tables',
     'app/utils', 
     'app/models',
-    'app/controllers',
-    'socket/bin',
+    'app/controllers', 
     'resources'
 ];
 

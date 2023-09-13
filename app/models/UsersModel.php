@@ -14,7 +14,7 @@ class Users extends QueryBuilder {
                 ':username' => $username,
             ]);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }
 
@@ -25,7 +25,7 @@ class Users extends QueryBuilder {
                 ':password' => password_hash($value[1], PASSWORD_BCRYPT), 
             ]);  
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }
 
@@ -43,7 +43,7 @@ class Users extends QueryBuilder {
             }
             return true;
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     } 
 
@@ -54,7 +54,7 @@ class Users extends QueryBuilder {
                 ':id' => $_SESSION['user_id']
             ]);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }
 
@@ -64,7 +64,7 @@ class Users extends QueryBuilder {
                 'id' => $data['id']
             ]);
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            json(['error' => $e->getMessage()]);
         }
     }
 }

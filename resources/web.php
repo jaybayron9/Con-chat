@@ -14,3 +14,4 @@ Router::post('/send', [RoomController::class, 'sendMessage']);
 Router::post('/checkFrom', [RoomController::class, 'checkFrom']);  
 Router::post('/profile/head', [RoomController::class, 'profileHead']);
 Router::post('/lastMessage', [RoomController::class, 'lastMessage']);
+Router::get('/config', fn() => phpinfo() );

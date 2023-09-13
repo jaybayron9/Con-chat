@@ -4,9 +4,9 @@ function convoBar() {
         myElement.scrollTop(myElement[0].scrollHeight);
     });
 }
-convoBar(); 
+convoBar();  
 
-var conn = new WebSocket('ws://localhost:8080'); 
+var conn = new WebSocket('ws://https://projtesting.rf.gd/:8080'); 
 
 conn.onopen = () => {  
     console.log("Connection established!"); 
