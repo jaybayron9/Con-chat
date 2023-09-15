@@ -16,10 +16,6 @@ I built ConChat to showcase my skills as a software developer and highlight my p
 - Secure authentication: Protect user data with a robust authentication system.
 - User-friendly interface: A clean and intuitive design for a seamless user experience.
 
-## Usage
-
-Provide instructions on how to use your application, including installation and setup instructions, if applicable.
-
 ## Technologies Used
 
 List the technologies, libraries, and frameworks you used to build ConChat.
